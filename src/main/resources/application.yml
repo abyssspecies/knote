@@ -1,0 +1,10 @@
+server:
+  port: 8090
+
+spring:
+  freemarker:
+    cache: false
+    suffix: .ftl
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://knote:knote@localhost:27017/knote}
