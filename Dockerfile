@@ -8,6 +8,7 @@ RUN mvn -B -s /usr/share/maven/ref/settings-docker.xml package
 FROM openjdk:8-jdk-alpine
 MAINTAINER abyssspecies <abyssspecies@gmail.com>
 ARG MIRROR_ALPINE_HOST=mirrors.ustc.edu.cn
+RUN mkdir /app
 RUN sed -i "s/dl-cdn.alpinelinux.org/${MIRROR_ALPINE_HOST}/g" /etc/apk/repositories \
   && apk add --no-cache tini curl wget vim ca-certificates tzdata \
   && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
@@ -16,7 +17,6 @@ RUN sed -i "s/dl-cdn.alpinelinux.org/${MIRROR_ALPINE_HOST}/g" /etc/apk/repositor
   && rm -rf /var/cache/apk/*
 RUN addgroup -S knote && adduser -S knote -G knote
 USER knote:knote
-RUN mkdir /app
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/*.jar /app/app.jar
 VOLUME /tmp
 EXPOSE 8090 8091
