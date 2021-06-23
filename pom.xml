@@ -99,6 +99,20 @@
                     </buildArgs>
                 </configuration>
             </plugin>
+
+            <!-- Image name and other parameters will be configured through skaffold.yml
+                See https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin
+                for config options. -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <container>
+                        <user>nobody:nobody</user>
+                    </container>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

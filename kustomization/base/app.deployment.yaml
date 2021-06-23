@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: knote
+  labels:
+    app: knote
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: knote
+  template:
+    metadata:
+      labels:
+        app: knote
+    spec:
+      containers:
+        - name: knote
+          image: io.abyssspecies.train/knote:0.0.1-SNAPSHOT
+          # Check run that if you have hope that restarting will help!
+          # The Readiness state tells whether the application is ready to accept client requests.
+          readinessProbe:
+            httpGet:
+              port: 8091
+              path: /actuator/health/readiness
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          # The liveness state of an application tells whether the internal state is valid (e.g.,
+          # it is connected to a required DB, cache, ...).
+          livenessProbe:
+            httpGet:
+              port: 8091
+              path: /actuator/health/liveness
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          # Resources
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              memory: "384Mi"
+              cpu: "2000m"
+          env:
+            - name: INSTANCE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: knote-cm
+                  key: SERVER_PORT
+
