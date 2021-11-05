@@ -1,7 +1,7 @@
 # KNote
 
-the simplest demo to learning building docker image for spring boot project  
-using spring boot layered building feature, and a multi-stage Dockerfile
+the simplest [knote](https://learnk8s.io/spring-boot-kubernetes-guide) demo to learning building docker image for spring boot project and deploy to k8s  
+build spring boot app docker image with layered building feature, and a multi-stage Dockerfile
 
 ## Install or Running
 
@@ -19,8 +19,12 @@ sudo docker run --name=knote --restart=unless-stopped --link mongo --privileged=
   -e "SPRING_DATA_MONGODB_URI=mongodb://knote:knote@mongo:27017/knote" io.abyssspecies.train/knote:0.0.1-SNAPSHOT
 ```
 
+OTLP
+-javaagent:E:\SDK\opentelemetry-javaagent-all.jar
+OTEL_EXPORTER=otlp;OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:55680;OTEL_RESOURCE_ATTRIBUTES=service.name=knote
+
 ## Todo
 
 - [ ] correct dockerfile-maven-plugin configuration when locate Dockerfile
-
-
+- [ ] add signoz metrics and traces support, maybe check [SigNoz](https://signoz.io/docs/instrumentation/java)
+- [ ] complete k8s deploy with cloud ci/cd tool [codefresh](https://g.codefresh.io/)

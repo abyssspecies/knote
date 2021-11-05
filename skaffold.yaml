@@ -1,4 +1,5 @@
-apiVersion: skaffold/v2beta8
+# nonk8s
+apiVersion: skaffold/v2beta23
 kind: Config
 
 metadata:
@@ -6,7 +7,7 @@ metadata:
 
 build:
   artifacts:
-    - image: knote
+    - image: abyssspecies/knote:0.0.1
       context: .
       jib: {}
 

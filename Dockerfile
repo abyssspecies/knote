@@ -1,6 +1,6 @@
 FROM maven:3.8.1-jdk-8-slim AS MAVEN_TOOL_CHAIN
 COPY pom.xml /tmp/
-RUN mvn -B dependency:go-offline -f /tmp/pom.xml -s /usr/share/maven/ref/settings-docker.xml
+RUN mvn -s /usr/share/maven/ref/settings-docker.xml -f /tmp/pom.xml -B dependency:resolve-plugins dependency:resolve dependency:go-offline
 COPY src /tmp/src/
 WORKDIR /tmp/
 RUN mvn -B -s /usr/share/maven/ref/settings-docker.xml package
